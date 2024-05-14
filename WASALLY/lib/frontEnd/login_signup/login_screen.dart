@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          ForgetPasswordScreen(),
+                                           ForgetPasswordScreen(),
                                     ));
                               },
                               child: const Text(
@@ -193,6 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               String password = passwordController.text;
                               user_model? userloged = await ApiService()
                                   .authenticate(email, password);
+                              print(userloged?.id);
                               if (userloged != null) {
                                 Navigator.push(
                                   context,

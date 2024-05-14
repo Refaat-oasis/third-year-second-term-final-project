@@ -11,7 +11,7 @@ class ApiService {
     dio = Dio(
       // change every time
       BaseOptions(
-        baseUrl: "http://192.168.137.173:3000",
+        baseUrl: "http://192.168.1.16:3000",
       ),
     );
   }
