@@ -16,7 +16,7 @@ const ORDER_SCHEMA = new MONGOOSE.Schema({
 		enum: ["car", "truck", "courier"],
 	},
 	orderPrice: {
-		type: Number,
+		type: String,
 		required: false,
 	},
 	sourceCity: {

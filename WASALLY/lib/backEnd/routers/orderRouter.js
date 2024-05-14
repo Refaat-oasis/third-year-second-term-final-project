@@ -12,8 +12,8 @@ ORDER_ROUTER.route("/:orderId")
 	.patch(OERDER_CONTROLLER.updateOrder)
 	.delete(OERDER_CONTROLLER.deleteOrder);
 
-// ORDER_ROUTER.route("/:Type")
 
-ORDER_ROUTER.route("/:driverID").get(OERDER_CONTROLLER.getAllOrdersForDriver);
+
+
 
 module.exports = ORDER_ROUTER;

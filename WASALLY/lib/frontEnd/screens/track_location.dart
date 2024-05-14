@@ -1,14 +1,18 @@
-// ignore_for_file: sized_box_for_whitespace, avoid_print, avoid_unnecessary_containers, unused_element
+// ignore_for_file: sized_box_for_whitespace, avoid_print, avoid_unnecessary_containers, unused_element, prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:async';
-import 'package:Wasally/frontEnd/screens/delivery_home.dart';
+import 'package:Wasally/frontEnd/layout/layout.dart';
+import 'package:Wasally/frontEnd/models/order.dart';
+import 'package:Wasally/frontEnd/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'orderreceivedscreen.dart';
 
 class TrackingLocationScreen extends StatefulWidget {
-  const TrackingLocationScreen({Key? key}) : super(key: key);
+  final Order sentOrder;
+  const TrackingLocationScreen({Key? key, required this.sentOrder})
+      : super(key: key);
 
   @override
   State<TrackingLocationScreen> createState() => _TrackingLocationScreenState();
@@ -130,14 +134,14 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                               thickness: 1.5,
                               endIndent: 25,
                             ),
-                            const Text('Benziena Mobile ',
+                            Text(widget.sentOrder.sourceStreet,
                                 style: TextStyle(fontSize: 18)),
                             const SizedBox(
                               height: 3,
                             ),
-                            const Text('Bus Station ',
+                            Text(widget.sentOrder.destinationStreet,
                                 style: TextStyle(fontSize: 18)),
-                            const Text('0123456789',
+                            Text(widget.sentOrder.sourceContactPhone,
                                 style: TextStyle(
                                   fontSize: 18,
                                 )),
@@ -146,9 +150,10 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                               thickness: 1.5,
                               endIndent: 25,
                             ),
-                            const Row(
+                            Row(
                               children: [
-                                Text('20\$', style: TextStyle(fontSize: 18)),
+                                Text(widget.sentOrder.orderPrice ?? "20\$",
+                                    style: TextStyle(fontSize: 18)),
                               ],
                             ),
                             Row(
@@ -191,14 +196,16 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                                     backgroundColor:
                                         MaterialStateProperty.all(Colors.red),
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await ApiService()
+                                        .deleteOrder(widget.sentOrder);
                                     Navigator.push(
                                       context,
                                       PageRouteBuilder(
                                         transitionDuration:
                                             const Duration(milliseconds: 500),
                                         pageBuilder: (_, __, ___) =>
-                                            DeliveryHome(),
+                                            LayoutScreen(),
                                         transitionsBuilder:
                                             (_, animation, __, child) {
                                           return FadeTransition(

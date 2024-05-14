@@ -1,32 +1,7 @@
 const ORDER_MODEL = require("../models/orderModel");
 const MONGOOSE = require("mongoose");
 
-// const VehicleType = require('./models/VehicleType'); // assuming this is the path to your vehicle model
 
-// const findVehiclesByType = async (type) => {
-//   try {
-//     const vehicles = await VehicleType.find({ type: type });
-//     return vehicles;
-//   } catch (error) {
-//     console.error('Error finding vehicles by type:', error);
-//     throw error;
-//   }
-// };
-
-let getAllOrdersForDriver = async (driverID) => {
-	try {
-		const orders = await Order.find({
-			driverIDMethod: driverID,
-		}).populate("driverIDMethod", "vehicleMethod");
-		const filteredOrders = orders.filter(
-			(order) => order.driverIDMethod.vehicleMethod === "registeredMethod",
-		); // replace 'registeredMethod' with the driver's registered vehicle method
-		return filteredOrders;
-	} catch (error) {
-		console.error("Error getting orders for driver:", error);
-		throw error;
-	}
-};
 
 let getAllOrders = async (req, res) => {
 	try {
@@ -119,5 +94,5 @@ module.exports = {
 	getOrderById,
 	updateOrder,
 	deleteOrder,
-	getAllOrdersForDriver,
+	
 };

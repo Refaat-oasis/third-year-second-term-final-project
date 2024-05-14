@@ -1,9 +1,7 @@
 // ignore_for_file: camel_case_types
 
 class user_model {
-  // mongo id
   late String? id;
-
   late String name;
   late String email;
   late String mobilePhone;

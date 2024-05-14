@@ -89,6 +89,31 @@ let deleteUser = async (req, res) => {
 	}
 };
 
+let forgetPassword = async (req, res) => {
+	try {
+		const { email } = req.body;
+		let foundUser = await USER_MODEL.findOne({ email });
+
+		if (!foundUser) {
+			return res.status(400).json({
+				status: "fail",
+				requestedAt: req.requestTime,
+				message: "email not found",
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			requestedAt: req.requestTime,
+			data: foundUser,
+		});
+	} catch (error) {
+		res.status(400).json({
+			status: "fail",
+			message: `the error is 🔥   :-  ${error}`,
+		});
+	}
+};
+
 let authenticateUser = async (req, res) => {
 	try {
 		const { email, password } = req.body;
@@ -133,4 +158,5 @@ module.exports = {
 	deleteUser,
 	addNewUser,
 	authenticateUser,
+	forgetPassword,
 };

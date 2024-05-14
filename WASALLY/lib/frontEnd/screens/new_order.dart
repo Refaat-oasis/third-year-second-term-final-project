@@ -1,11 +1,12 @@
 // ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print, must_be_immutable, dead_code, use_build_context_synchronously, curly_braces_in_flow_control_structures, unnecessary_brace_in_string_interps
 
+import 'dart:convert';
 import 'dart:developer';
 import 'package:Wasally/frontEnd/models/order.dart';
 import 'package:Wasally/frontEnd/models/user_model.dart';
+import 'package:Wasally/frontEnd/screens/track_location.dart';
 import 'package:Wasally/frontEnd/services/api_service.dart';
 import 'package:flutter/material.dart';
-import '../screens/tracking_screen.dart';
 
 class NewOrderScreen extends StatefulWidget {
   final user_model? loggedUser;
@@ -36,27 +37,27 @@ class _NewOrderState extends State<NewOrderScreen> {
 
   DeliveryMethod? _selectedMethod = DeliveryMethod.courier;
 
-  String deliveryMethodSelected() {
+  String getSelectedDeliveryMethodString() {
     switch (_selectedMethod) {
       case DeliveryMethod.car:
-        return "car";
+        return 'car';
       case DeliveryMethod.truck:
-        return "truck";
+        return 'truck';
       case DeliveryMethod.courier:
       default:
-        return "courier";
+        return 'courier';
     }
   }
 
-  String orderPriceSelected() {
+  String getSelectedDeliveryMethodPriceString() {
     switch (_selectedMethod) {
       case DeliveryMethod.car:
-        return "\$50";
+        return '20\$';
       case DeliveryMethod.truck:
-        return "\$60";
+        return '50\$';
       case DeliveryMethod.courier:
       default:
-        return "\$20";
+        return '100\$';
     }
   }
 
@@ -485,8 +486,8 @@ class _NewOrderState extends State<NewOrderScreen> {
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           Order order = Order(
-                            dlelivaryMethod: deliveryMethodSelected(),
-                            orderPrice: orderPriceSelected(),
+                            dlelivaryMethod: getSelectedDeliveryMethodString(),
+                            orderPrice: getSelectedDeliveryMethodPriceString(),
                             destinationCity: tocity.text,
                             destinationContactAddress: toaddress.text,
                             destinationContactPhone: tophone.text,
@@ -505,13 +506,16 @@ class _NewOrderState extends State<NewOrderScreen> {
                             driverID: "",
                           );
 
-                          Order? ord = await ApiService().addNewOrder(order);
+                          print(jsonEncode(order.toJson()));
+                          Order? sentOrder =
+                              await ApiService().addNewOrder(order);
 
-                          if (ord != null) {
+                          if (sentOrder != null) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const TrackingScreen(),
+                                  builder: (context) => TrackingLocationScreen(
+                                      sentOrder: sentOrder),
                                 ));
                           }
                         }

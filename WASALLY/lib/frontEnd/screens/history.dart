@@ -1,23 +1,41 @@
+// ignore_for_file: avoid_print, camel_case_types
+
+import 'package:Wasally/frontEnd/models/order.dart';
+import 'package:Wasally/frontEnd/models/user_model.dart';
+import 'package:Wasally/frontEnd/services/api_service.dart';
 import 'package:flutter/material.dart';
-// import 'package:wasaalydriver/login_signup/login_screen.dart';
-// import 'package:wasaalydriver/login_signup/signupdilevery.dart';
-// import 'package:wasaalydriver/screens/track_location.dart';
-// import 'package:wasaalydriver/screens/tracking_screen.dart';
 
 class history extends StatefulWidget {
-  const history({Key? key}) : super(key: key);
+  final user_model? loggedUser;
+  const history({Key? key, this.loggedUser}) : super(key: key);
 
   @override
- HistoryState createState() => HistoryState();
+  HistoryState createState() => HistoryState();
 }
 
 class HistoryState extends State<history> {
-  List<int> orderIds = List.generate(10, (index) => index + 1);
+  List<Order> orders = []; // Update to hold Order objects
 
-  void acceptOrder(int orderId) {
-    setState(() {
-      orderIds.remove(orderId);
-    });
+  @override
+  void initState() {
+    super.initState();
+    fetchOrders(); // Call the function to fetch orders when the widget initializes
+  }
+
+  Future<void> fetchOrders() async {
+    try {
+      // Call your API service method to fetch orders
+      List<Order> fetchedOrders = await ApiService().getAllOrders();
+
+      setState(() {
+        // Update the orders list with the fetched orders
+        orders = fetchedOrders;
+      });
+    } catch (error) {
+      // Handle any exceptions that might occur during the process
+      print('Error fetching orders: $error');
+      // Optionally, you can show an error message to the user
+    }
   }
 
   @override
@@ -25,7 +43,7 @@ class HistoryState extends State<history> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Received Requests"),
+        title: const Text("Received Requests"),
       ),
       body: Center(
         child: Padding(
@@ -34,156 +52,124 @@ class HistoryState extends State<history> {
             children: [
               Expanded(
                 child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => Container(
-                    width: 300,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              const CircleAvatar(
-                                radius: 7,
-                                backgroundColor: Colors.orange,
-                              ),
-                              Container(
-                                height: 14,
-                                color: Colors.orange,
-                                width: 4,
-                              ),
-                              Icon(
-                                Icons.location_on,
-                                color: Colors.orange,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Icon(Icons.phone, color: Colors.orange),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                Row(
-                                  children: [
-                                    const Text('Benziena Mobile ',
-                                        style: TextStyle(fontSize: 20)),
-                                    Spacer(),
-                                    Text('order id : ${orderIds[index]}',
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                        )),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                const Text('Bus Station ',
-                                    style: TextStyle(fontSize: 20)),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                const Text('0123456789',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    )),
-                                Divider(
-                                  color: Colors.orangeAccent,
-                                  thickness: 3,
-                                  endIndent: 25,
-                                ),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                Row(
-                                  children: [
-                                    const Text('20\$',
-                                        style: TextStyle(fontSize: 20)),
-                                    Spacer(),
-                                    // Container(
-                                    //   width: 99,
-                                    //   height: 30,
-                                    //   child: MaterialButton(
-                                    //     shape: RoundedRectangleBorder(
-                                    //         borderRadius:
-                                    //             BorderRadius.circular(18)),
-                                    //     color: Colors.orange,
-                                    //     onPressed: () {
-                                    //       acceptOrder(orderIds[index]);
-                                    //       if (Navigator.canPop(context)) {
-                                    //         Navigator.pop(
-                                    //             context); // Pop the current route first
-
-                                    //         if (Navigator.of(context)
-                                    //             .canPop()) {
-                                    //           // Check if the previous route is available
-                                    //           // If so, navigate to the TrackingLocationScreen
-                                    //           Navigator.push(
-                                    //             context,
-                                    //             MaterialPageRoute(
-                                    //                 builder: (context) =>
-                                    //                     TrackingLocationScreen()),
-                                    //           );
-                                    //         } else {
-                                    //           // If the previous route is not available, navigate to SignUpDilevery
-                                    //           Navigator.push(
-                                    //             context,
-                                    //             MaterialPageRoute(
-                                    //                 builder: (context) =>
-                                    //                     SignUpDilevery(true)),
-                                    //           );
-                                    //         }
-                                    //       } else {
-                                    //         // If the current route cannot be popped, navigate to SignUpDilevery
-                                    //         Navigator.push(
-                                    //           context,
-                                    //           MaterialPageRoute(
-                                    //               builder: (context) =>
-                                    //                   SignUpDilevery(true)),
-                                    //         );
-                                    //       }
-                                    //     },
-                                    //     child: Text("Accept",
-                                    //         style: TextStyle(
-                                    //             color: Colors.white,
-                                    //             fontWeight: FontWeight.bold,
-                                    //             fontSize: 18)),
-                                    //   ),
-                                    // ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  separatorBuilder: (context, index) => Divider(
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) =>
+                      buildOrderItem(orders[index]),
+                  separatorBuilder: (context, index) => const Divider(
                     color: Colors.grey,
                     thickness: 2.5,
                   ),
-                  itemCount: orderIds.length,
+                  itemCount: orders.length,
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildOrderItem(Order order) {
+    // Here, you can build each item using the order information
+    return Container(
+      width: 300,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                const SizedBox(
+                  height: 8,
+                ),
+                const CircleAvatar(
+                  radius: 7,
+                  backgroundColor: Colors.orange,
+                ),
+                Container(
+                  height: 14,
+                  color: Colors.orange,
+                  width: 4,
+                ),
+                const Icon(
+                  Icons.location_on,
+                  color: Colors.orange,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Icon(Icons.phone, color: Colors.orange),
+              ],
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    'order id : ${order.id}',
+                    style: const TextStyle(
+                      fontSize: 17,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        order.sourceStreet,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    order.destinationStreet,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Text(
+                    order.sourceContactPhone,
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.orangeAccent,
+                    thickness: 3,
+                    endIndent: 25,
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        order.orderPrice ?? "",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const Spacer(),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

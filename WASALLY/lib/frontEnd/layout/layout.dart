@@ -45,8 +45,8 @@ class LayoutScreenState extends State<LayoutScreen> {
 
     screens = [
       NewOrderScreen(loggedUser: widget.loggedUser),
-      TopicsPage(),
-      const history(),
+      const TopicsPage(),
+      history(loggedUser: widget.loggedUser),
       SettingScreen(
           loggedUser: widget.loggedUser), // Access loggedUser from widget
     ];

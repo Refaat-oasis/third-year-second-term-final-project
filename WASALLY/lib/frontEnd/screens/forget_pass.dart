@@ -1,10 +1,13 @@
-// ignore_for_file: sized_box_for_whitespace, use_key_in_widget_constructors, library_private_types_in_public_api, unused_field
+// ignore_for_file: sized_box_for_whitespace, use_key_in_widget_constructors, library_private_types_in_public_api, unused_field, use_build_context_synchronously
+
+import 'dart:convert';
 
 import 'package:Wasally/frontEnd/login_signup/signupcustomer_screen.dart';
+import 'package:Wasally/frontEnd/models/user_model.dart';
 import 'package:Wasally/frontEnd/screens/reset_pass.dart';
+import 'package:Wasally/frontEnd/services/api_service.dart';
 import 'package:flutter/material.dart';
 import './../login_signup/login_screen.dart';
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -86,7 +89,10 @@ class _ResetPasswordScreenState extends State<ForgetPasswordScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28)),
                       color: Colors.orange,
-                      onPressed: () {
+                      onPressed: () async {
+                        user_model forgottenuserpassword = await ApiService()
+                            .forgetPassword(_emailController.text);
+                        print(jsonEncode("there is a big problem ${forgottenuserpassword.toJson()}"));
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -125,7 +131,7 @@ class _ResetPasswordScreenState extends State<ForgetPasswordScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>const LoginScreen(),
+                            builder: (context) => const LoginScreen(),
                           ));
                     },
                     child: const Text(

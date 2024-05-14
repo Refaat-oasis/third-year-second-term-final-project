@@ -1,7 +1,7 @@
 class Order {
   late String? id;
 
-  late DateTime? creationDate;
+  // late DateTime? creationDate;
   late String? orderStatus;
   late String dlelivaryMethod;
   late String? orderPrice;
@@ -24,7 +24,7 @@ class Order {
 
   Order({
     this.id,
-    this.creationDate,
+    // this.creationDate,
     this.orderStatus,
     required this.dlelivaryMethod,
     this.orderPrice,
@@ -48,7 +48,7 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json['_id'],
-        creationDate: json['creationDate'],
+        // creationDate: json['creationDate'],
         orderStatus: json['orderStatus'],
         dlelivaryMethod: json['dlelivaryMethod'],
         orderPrice: json['orderPrice'],
