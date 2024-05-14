@@ -57,8 +57,6 @@ class DeliveryHome extends StatelessWidget {
 }
 
 class Neworder {
-  Neworder(String startpos, String endpos, String startphone, String deliverymethod);
-
   static Neworder? fromJson(QueryDocumentSnapshot<Object?> doc) {
     // Your parsing logic goes here
 

@@ -22,6 +22,6 @@ MONGOOSE.connect(URL)
 // INITHIATE SERVER
 
 const PORT = 3000;
-APP.listen(PORT,'172.20.10.6', () => {
+APP.listen(PORT,'192.168.137.173', () => {
 	console.log(`Running on port 📞  ${PORT}`);
 });

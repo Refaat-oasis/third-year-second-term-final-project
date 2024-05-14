@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_local_variable
 
 import 'package:Wasally/frontEnd/models/order.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +11,7 @@ class ApiService {
     dio = Dio(
       // change every time
       BaseOptions(
-        baseUrl: "http://172.20.10.6:3000",
+        baseUrl: "http://192.168.137.173:3000",
       ),
     );
   }
