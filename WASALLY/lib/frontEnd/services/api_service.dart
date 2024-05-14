@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, unused_local_variable
 
+import 'dart:js_interop_unsafe';
+
 import 'package:Wasally/frontEnd/models/order.dart';
 import 'package:dio/dio.dart';
 import 'package:Wasally/frontEnd/models/user_model.dart';
@@ -74,12 +76,12 @@ class ApiService {
     }
   }
 
-  Future<Order?> addNewOrder(Order order) async {
+ Future<Order?> addNewOrder(Order order) async {
     try {
       Response<Map<String, dynamic>> response =
           await dio.post('/api/v1/order', data: order.toJson());
 
-      return Order.fromJson(response.data!);
+      return Order.fromJson(response.data?['data']);
     } catch (e) {
       // Handle Dio errors or server errors
       print('Error: $e');
@@ -87,13 +89,17 @@ class ApiService {
     }
   }
 
-  Future<void> deleteOrder(String id) async {
+  
+ Future<Order?> deleteOrder(Order order) async {
     try {
+      String? orderID = order.id;
       Response<Map<String, dynamic>> response =
-          await dio.delete("/api/v1/order/:id");
+          await dio.delete('/api/v1/order/$orderID', data: order.toJson());
+
+      return Order.fromJson(response.data?['data']);
     } catch (e) {
       // Handle Dio errors or server errors
-      print('Error: $e');
+      print('Error in the delete order : $e');
       throw Exception('Failed to delete order: $e');
     }
   }
