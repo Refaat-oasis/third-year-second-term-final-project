@@ -38,6 +38,7 @@ class _NewOrderState extends State<NewOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Form(
       key: formKey,
       child: SafeArea(
@@ -73,121 +74,69 @@ class _NewOrderState extends State<NewOrderScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton(
-                      onPressed: () {
-                        print('Courier button pressed');
-
-                        setState(() {
-                          courierpressed = !courierpressed;
-                        });
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            courierpressed ? Colors.orange : Colors.grey[350],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.directions_run,
-                            color: courierpressed ? Colors.white : Colors.black,
-                          ),
-                          Text(
-                            'Courier',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  courierpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'Up to 10 kg',
-                            style: TextStyle(
-                              color:
-                                  courierpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        print('Car button pressed');
-                        carpressed = !carpressed;
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            carpressed ? Colors.orange : Colors.grey[350],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.directions_car_rounded,
-                            color: carpressed ? Colors.white : Colors.black,
-                          ),
-                          Text(
-                            'Car',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: carpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'Up to 60 kg',
-                            style: TextStyle(
-                              color: carpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        print('Truck button pressed');
-                        setState(() {
-                          truckpressed = !truckpressed;
-                        });
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            truckpressed ? Colors.orange : Colors.grey[350],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.local_shipping,
-                            color: truckpressed ? Colors.white : Colors.black,
-                          ),
-                          Text(
-                            'Truck',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: truckpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          Text(
-                            '> 60 kg',
-                            style: TextStyle(
-                              color: truckpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    RadioListTile(
+                    title: Text('Courier'),
+                     subtitle: Text('Up to 10 kg'),
+                           value: true,
+                           groupValue: isCourierSelected,
+                                onChanged: (value) {
+                                     setState(() {
+                                   isCourierSelected = value as bool;
+                              });
+                                   if (value == true) {
+                                      print('Courier button pressed');
+                                    }
+                                      },
+                                        secondary: Icon(
+                                  Icons.directions_run,
+                                 color: isCourierSelected ?
+                                 Colors.white : Colors.black,
+                                  ),
+                                         selected: isCourierSelected,
+                                         activeColor: Colors.orange,
+                      ),     
+                   RadioListTile(
+                             title: Text('Car'),
+                         subtitle: Text('Up to 60 kg'),
+                                   value: true,
+                            groupValue: isCarSelected,
+                             onChanged: (value) {
+                                     setState(() {
+                             isCarSelected = value as bool;
+                            });
+                             if (value == true) {
+                                print('Car button pressed');
+                              }
+                              },
+                               secondary: Icon(
+                               Icons.directions_car_rounded,
+                              color: isCarSelected == true ?
+                              Colors.white : Colors.black,
+               ),
+                          selected: isCarSelected == true,
+                           activeColor: Colors.orange,
+                     ),
+                    RadioListTile(
+                       title: Text('Truck'),
+                      subtitle: Text('> 60 kg'),
+                           value: true,
+                      groupValue: isTruckSelected,
+                         onChanged: (value) {
+                          setState(() {       
+                   isTruckSelected = value as bool;
+                });
+                      if (value == true) {
+                   print('Truck button pressed');
+                 }
+                 },
+                 secondary: Icon(
+                Icons.local_shipping,
+               color: isTruckSelected == true ?
+                Colors.white : Colors.black,
+                ),
+                   selected: isTruckSelected == true,
+                   activeColor: Colors.orange,
+                   ),
                   ],
                 ),
                 const SizedBox(
