@@ -42,12 +42,12 @@ const ORDER_SCHEMA = new MONGOOSE.Schema({
 	sourceContactPhone: {
 		type: String,
 		required: true,
-		validate: {
-			validator: function (value) {
-				return /^[0-9]{11}$/.test(value);
-			},
-			message: (props) => `${props.value} is not a valid phone number!`,
-		},
+		// validate: {
+		// 	validator: function (value) {
+		// 		return /^[0-9]{11}$/.test(value);
+		// 	},
+		// 	message: (props) => `${props.value} is not a valid phone number!`,
+		// },
 	},
 	sourceContactAddress: {
 		type: String,
@@ -76,12 +76,12 @@ const ORDER_SCHEMA = new MONGOOSE.Schema({
 	destinationContactPhone: {
 		type: String,
 		required: true,
-		validate: {
-			validator: function (value) {
-				return /^[0-9]{11}$/.test(value);
-			},
-			message: (props) => `${props.value} is not a valid phone number!`,
-		},
+		// validate: {
+		// 	validator: function (value) {
+		// 		return /^[0-9]{11}$/.test(value);
+		// 	},
+		// 	message: (props) => `${props.value} is not a valid phone number!`,
+		// },
 	},
 	destinationContactAddress: {
 		type: String,

@@ -1,5 +1,6 @@
 class Order {
   late String? id;
+
   late DateTime? creationDate;
   late String? orderStatus;
   late String dlelivaryMethod;
@@ -87,6 +88,6 @@ class Order {
         'destinationContactPhone': destinationContactPhone,
         'destinationContactAddress': destinationContactAddress,
         'userID': userID,
-        'driverID': driverID,
+        'driverID': "",
       };
 }

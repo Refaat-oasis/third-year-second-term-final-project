@@ -1,28 +1,31 @@
-// ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print, must_be_immutable, dead_code, use_build_context_synchronously
+// ignore_for_file: sized_box_for_whitespace, unused_import, equal_keys_in_map, avoid_print, must_be_immutable, dead_code, use_build_context_synchronously, curly_braces_in_flow_control_structures, unnecessary_brace_in_string_interps
 
 import 'dart:developer';
-// import 'package:wasally/lib/frontEnd/models/order.dart';
 import 'package:Wasally/frontEnd/models/order.dart';
+import 'package:Wasally/frontEnd/models/user_model.dart';
 import 'package:Wasally/frontEnd/services/api_service.dart';
 import 'package:flutter/material.dart';
 import '../screens/tracking_screen.dart';
 
 class NewOrderScreen extends StatefulWidget {
-  const NewOrderScreen({super.key});
+  final user_model? loggedUser;
+  const NewOrderScreen({super.key, this.loggedUser});
 
   @override
   State<NewOrderScreen> createState() => _NewOrderState();
 }
 
+enum DeliveryMethod { courier, car, truck }
+
 class _NewOrderState extends State<NewOrderScreen> {
   final TextEditingController fromcity = TextEditingController();
-  final TextEditingController dlelivaryMethod = TextEditingController();
   final TextEditingController fromstreet = TextEditingController();
   final TextEditingController fromhouse = TextEditingController();
   final TextEditingController fromflat = TextEditingController();
   final TextEditingController fromname = TextEditingController();
   final TextEditingController fromphone = TextEditingController();
   final TextEditingController fromaddress = TextEditingController();
+
   final TextEditingController tocity = TextEditingController();
   final TextEditingController tostreet = TextEditingController();
   final TextEditingController tohouse = TextEditingController();
@@ -30,9 +33,32 @@ class _NewOrderState extends State<NewOrderScreen> {
   final TextEditingController toname = TextEditingController();
   final TextEditingController tophone = TextEditingController();
   final TextEditingController toaddress = TextEditingController();
-  bool courierpressed = false;
-  bool carpressed = false;
-  bool truckpressed = false;
+
+  DeliveryMethod? _selectedMethod = DeliveryMethod.courier;
+
+  String deliveryMethodSelected() {
+    switch (_selectedMethod) {
+      case DeliveryMethod.car:
+        return "car";
+      case DeliveryMethod.truck:
+        return "truck";
+      case DeliveryMethod.courier:
+      default:
+        return "courier";
+    }
+  }
+
+  String orderPriceSelected() {
+    switch (_selectedMethod) {
+      case DeliveryMethod.car:
+        return "\$50";
+      case DeliveryMethod.truck:
+        return "\$60";
+      case DeliveryMethod.courier:
+      default:
+        return "\$20";
+    }
+  }
 
   var formKey = GlobalKey<FormState>();
 
@@ -73,118 +99,51 @@ class _NewOrderState extends State<NewOrderScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton(
-                      onPressed: () {
-                        print('Courier button pressed');
-
-                        setState(() {
-                          courierpressed = !courierpressed;
-                        });
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            courierpressed ? Colors.orange : Colors.grey[350],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    Expanded(
+                      child: Row(
                         children: [
-                          Icon(
-                            Icons.directions_run,
-                            color: courierpressed ? Colors.white : Colors.black,
+                          Radio<DeliveryMethod>(
+                            value: DeliveryMethod.courier,
+                            groupValue: _selectedMethod,
+                            onChanged: (DeliveryMethod? value) {
+                              setState(() {
+                                _selectedMethod = value;
+                              });
+                            },
                           ),
-                          Text(
-                            'Courier',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  courierpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'Up to 10 kg',
-                            style: TextStyle(
-                              color:
-                                  courierpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
+                          const Text('Courier'),
                         ],
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        print('Car button pressed');
-                        carpressed = !carpressed;
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            carpressed ? Colors.orange : Colors.grey[350],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    Expanded(
+                      child: Row(
                         children: [
-                          Icon(
-                            Icons.directions_car_rounded,
-                            color: carpressed ? Colors.white : Colors.black,
+                          Radio<DeliveryMethod>(
+                            value: DeliveryMethod.car,
+                            groupValue: _selectedMethod,
+                            onChanged: (DeliveryMethod? value) {
+                              setState(() {
+                                _selectedMethod = value;
+                              });
+                            },
                           ),
-                          Text(
-                            'Car',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: carpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          Text(
-                            'Up to 60 kg',
-                            style: TextStyle(
-                              color: carpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
+                          const Text('Car'),
                         ],
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        print('Truck button pressed');
-                        setState(() {
-                          truckpressed = !truckpressed;
-                        });
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor:
-                            truckpressed ? Colors.orange : Colors.grey[350],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    Expanded(
+                      child: Row(
                         children: [
-                          Icon(
-                            Icons.local_shipping,
-                            color: truckpressed ? Colors.white : Colors.black,
+                          Radio<DeliveryMethod>(
+                            value: DeliveryMethod.truck,
+                            groupValue: _selectedMethod,
+                            onChanged: (DeliveryMethod? value) {
+                              setState(() {
+                                _selectedMethod = value;
+                              });
+                            },
                           ),
-                          Text(
-                            'Truck',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: truckpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          Text(
-                            '> 60 kg',
-                            style: TextStyle(
-                              color: truckpressed ? Colors.white : Colors.black,
-                            ),
-                          ),
+                          const Text('Truck'),
                         ],
                       ),
                     ),
@@ -526,9 +485,8 @@ class _NewOrderState extends State<NewOrderScreen> {
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           Order order = Order(
-                            creationDate: DateTime.now(),
-                            dlelivaryMethod: "",
-
+                            dlelivaryMethod: deliveryMethodSelected(),
+                            orderPrice: orderPriceSelected(),
                             destinationCity: tocity.text,
                             destinationContactAddress: toaddress.text,
                             destinationContactPhone: tophone.text,
@@ -543,21 +501,19 @@ class _NewOrderState extends State<NewOrderScreen> {
                             sourceFlat: fromflat.text,
                             sourceHouse: fromhouse.text,
                             sourceStreet: fromstreet.text,
-
-                            // dlelivaryMethod:
+                            userID: widget.loggedUser?.id,
+                            driverID: "",
                           );
 
-                          await ApiService().addNewOrder(order);
+                          Order? ord = await ApiService().addNewOrder(order);
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const TrackingScreen(
-                                    // isDriver: false,
-                                    // neworder: sendorder(),
-                                    // isaccepted: isaccepted,
-                                    ),
-                              ));
+                          if (ord != null) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TrackingScreen(),
+                                ));
+                          }
                         }
                       },
                       child: const Text(

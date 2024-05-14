@@ -2,6 +2,7 @@
 
 import 'package:Wasally/frontEnd/layout/layout.dart';
 import 'package:Wasally/frontEnd/models/user_model.dart';
+import 'package:Wasally/frontEnd/screens/forget_pass.dart';
 import 'package:Wasally/frontEnd/services/api_service.dart';
 import 'package:flutter/material.dart';
 import '../login_signup/signupcustomer_screen.dart';
@@ -151,9 +152,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 180.0, top: 13),
-                        child: Text("forget password?"),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 180.0),
+                        child: Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgetPasswordScreen(),
+                                    ));
+                              },
+                              child: const Text(
+                                'Forget Password?',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 11,
@@ -172,7 +193,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               String password = passwordController.text;
                               user_model? userloged = await ApiService()
                                   .authenticate(email, password);
-                              print(userloged?.id);
                               if (userloged != null) {
                                 Navigator.push(
                                   context,

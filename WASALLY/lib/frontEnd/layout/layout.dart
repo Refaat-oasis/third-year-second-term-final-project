@@ -44,7 +44,7 @@ class LayoutScreenState extends State<LayoutScreen> {
     ];
 
     screens = [
-      const NewOrderScreen(),
+      NewOrderScreen(loggedUser: widget.loggedUser),
       TopicsPage(),
       const history(),
       SettingScreen(
@@ -55,7 +55,6 @@ class LayoutScreenState extends State<LayoutScreen> {
   void changeBottomScreen(int index) {
     setState(() {
       currentIndex = index;
-    
     });
   }
 

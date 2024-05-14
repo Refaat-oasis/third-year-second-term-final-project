@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, avoid_print, avoid_unnecessary_containers
+// ignore_for_file: sized_box_for_whitespace, avoid_print, avoid_unnecessary_containers, unused_element
 
 import 'dart:async';
 import 'package:Wasally/frontEnd/screens/delivery_home.dart';
@@ -165,9 +165,9 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                                       context,
                                       PageRouteBuilder(
                                         transitionDuration:
-                                            Duration(milliseconds: 500),
+                                            const Duration(milliseconds: 500),
                                         pageBuilder: (_, __, ___) =>
-                                            OrderReceivedScreen(),
+                                            const OrderReceivedScreen(),
                                         transitionsBuilder:
                                             (_, animation, __, child) {
                                           return FadeTransition(
@@ -183,7 +183,7 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                     width:
                                         10), // Add some space between the buttons
                                 ElevatedButton(
@@ -196,7 +196,7 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                                       context,
                                       PageRouteBuilder(
                                         transitionDuration:
-                                            Duration(milliseconds: 500),
+                                            const Duration(milliseconds: 500),
                                         pageBuilder: (_, __, ___) =>
                                             DeliveryHome(),
                                         transitionsBuilder:
@@ -270,7 +270,7 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
       locationData = event;
       markers.add(
         Marker(
-          markerId: MarkerId('myLocation'),
+          markerId: const MarkerId('myLocation'),
           position: LatLng(event.latitude!, event.longitude!),
         ),
       );

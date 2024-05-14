@@ -28,9 +28,9 @@ class ApiService {
     }
   }
 
-  Future<user_model?> updateUser(user_model user) async {
+  Future<user_model?> updateUser(user_model user, id) async {
     try {
-      String? userID = user.id;
+      String? userID = id;
       Response<Map<String, dynamic>> response =
           await dio.patch('/api/v1/user/$userID', data: user.toJson());
 
@@ -79,7 +79,7 @@ class ApiService {
       Response<Map<String, dynamic>> response =
           await dio.post('/api/v1/order', data: order.toJson());
 
-      return Order.fromJson(response.data!);
+      return Order.fromJson(response.data?['data']);
     } catch (e) {
       // Handle Dio errors or server errors
       print('Error: $e');
@@ -87,10 +87,11 @@ class ApiService {
     }
   }
 
-  Future<void> deleteOrder(String id) async {
+  Future<void> deleteOrder(Order order) async {
     try {
-      Response<Map<String, dynamic>> response =
-          await dio.delete("/api/v1/order/:id");
+      String? id = order.id;
+      // Response<Map<String, dynamic>> response =
+      await dio.delete("/api/v1/order/$id");
     } catch (e) {
       // Handle Dio errors or server errors
       print('Error: $e');

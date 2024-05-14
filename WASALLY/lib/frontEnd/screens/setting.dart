@@ -249,8 +249,8 @@ class _SignUpCustomerState extends State<SettingScreen> {
                                 password: passwordeditcontroller.text,
                                 mobilePhone: phonenumbereditcontroller.text);
                             if (formKey.currentState!.validate()) {
-                              
-                              await ApiService().updateUser(updatedUser);
+                              await ApiService().updateUser(
+                                  updatedUser, widget.loggedUser!.id);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
