@@ -172,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               String password = passwordController.text;
                               user_model? userloged = await ApiService()
                                   .authenticate(email, password);
+                              print(userloged?.id);
                               if (userloged != null) {
                                 Navigator.push(
                                   context,

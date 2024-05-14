@@ -55,6 +55,7 @@ class LayoutScreenState extends State<LayoutScreen> {
   void changeBottomScreen(int index) {
     setState(() {
       currentIndex = index;
+    
     });
   }
 
