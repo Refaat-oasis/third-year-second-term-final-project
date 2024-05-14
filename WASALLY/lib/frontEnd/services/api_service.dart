@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print, unused_local_variable
-
 import 'package:Wasally/frontEnd/models/order.dart';
 import 'package:dio/dio.dart';
 import 'package:Wasally/frontEnd/models/user_model.dart';
@@ -73,19 +71,40 @@ class ApiService {
       return null;
     }
   }
+Future<Order> addNewOrder(Order order) async {
+  try {
+    Response<Map<String, dynamic>> response =
+        await dio.post('/api/v1/order', data: order.toJson());
 
-  Future<Order?> addNewOrder(Order order) async {
-    try {
-      Response<Map<String, dynamic>> response =
-          await dio.post('/api/v1/order', data: order.toJson());
-
-      return Order.fromJson(response.data?['data']);
-    } catch (e) {
-      // Handle Dio errors or server errors
-      print('Error: $e');
-      throw Exception('Failed to add new order: $e');
+    if (response.statusCode == 200) {
+      // Check if data is not null and has the expected structure
+      if (response.data != null && response.data?['data'] != null) {
+        return Order.fromJson(response.data!['data']);
+      } else {
+        throw Exception('Failed to parse response data');
+      }
+    } else {
+      throw Exception('Failed to add new order. Status code: ${response.statusCode}');
     }
+  } catch (e) {
+    // Handle Dio errors or server errors
+    print('Error: $e');
+    throw Exception('Failed to add new order: $e');
   }
+}
+
+  // Future<Order?> addNewOrder(Order order) async {
+  //   try {
+  //     Response<Map<String, dynamic>> response =
+  //         await dio.post('/api/v1/order', data: order.toJson());
+
+  //     return Order.fromJson(response.data?['data']);
+  //   } catch (e) {
+  //     // Handle Dio errors or server errors
+  //     print('Error: $e');
+  //     throw Exception('Failed to add new order: $e');
+  //   }
+  // }
 
   Future<void> deleteOrder(Order order) async {
     try {
