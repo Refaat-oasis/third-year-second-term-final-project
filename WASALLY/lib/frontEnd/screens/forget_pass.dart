@@ -92,7 +92,8 @@ class _ResetPasswordScreenState extends State<ForgetPasswordScreen> {
                       onPressed: () async {
                         user_model forgottenuserpassword = await ApiService()
                             .forgetPassword(_emailController.text);
-                        print(jsonEncode("there is a big problem ${forgottenuserpassword.toJson()}"));
+                        print(jsonEncode(
+                            "there is a big problem ${forgottenuserpassword.toJson()}"));
                         Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:Wasally/frontEnd/layout/layout.dart';
 import 'package:Wasally/frontEnd/models/order.dart';
+import 'package:Wasally/frontEnd/models/user_model.dart';
 import 'package:Wasally/frontEnd/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,7 +12,9 @@ import 'orderreceivedscreen.dart';
 
 class TrackingLocationScreen extends StatefulWidget {
   final Order sentOrder;
-  const TrackingLocationScreen({Key? key, required this.sentOrder})
+  final user_model loggeduser;
+  const TrackingLocationScreen(
+      {Key? key, required this.sentOrder, required this.loggeduser})
       : super(key: key);
 
   @override
@@ -125,8 +128,8 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                             const SizedBox(
                               height: 10,
                             ),
-                            const Row(children: [
-                              Text('Mohammed saleh',
+                            Row(children: [
+                              Text(widget.loggeduser.name,
                                   style: TextStyle(fontSize: 17)),
                             ]),
                             const Divider(
@@ -172,7 +175,8 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                                         transitionDuration:
                                             const Duration(milliseconds: 500),
                                         pageBuilder: (_, __, ___) =>
-                                            const OrderReceivedScreen(),
+                                            OrderReceivedScreen(
+                                                loggeduser: widget.loggeduser),
                                         transitionsBuilder:
                                             (_, animation, __, child) {
                                           return FadeTransition(
@@ -205,7 +209,8 @@ class _TrackingLocationScreenState extends State<TrackingLocationScreen> {
                                         transitionDuration:
                                             const Duration(milliseconds: 500),
                                         pageBuilder: (_, __, ___) =>
-                                            LayoutScreen(),
+                                            LayoutScreen(
+                                                loggedUser: widget.loggeduser),
                                         transitionsBuilder:
                                             (_, animation, __, child) {
                                           return FadeTransition(

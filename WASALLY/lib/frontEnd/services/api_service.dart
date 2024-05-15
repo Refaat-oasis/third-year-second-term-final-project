@@ -44,22 +44,22 @@ class ApiService {
 
   Future<user_model> forgetPassword(String email) async {
     // try {
-      // Send GET request to the forgetPassword endpoint with email as query parameter
-      Response response = await dio.get(
-        '/api/v1/user/forget',
-        data: {
-          'email': email,
-        },
-      );
+    // Send GET request to the forgetPassword endpoint with email as query parameter
+    Response response = await dio.get(
+      '/api/v1/user/forget',
+      data: {
+        'email': email,
+      },
+    );
 
-      // Check response status
-      if (response.statusCode == 200) {
-        // Request successful, parse response data and return user_model
-        return user_model.fromJson(response.data['data']);
-      } else {
-        // Request failed, throw exception with error message
-        throw Exception('Failed to forget password');
-      }
+    // Check response status
+    if (response.statusCode == 200) {
+      // Request successful, parse response data and return user_model
+      return user_model.fromJson(response.data['data']);
+    } else {
+      // Request failed, throw exception with error message
+      throw Exception('Failed to forget password');
+    }
     // } catch (error) {
     //   // Request failed due to an error, throw exception with error message
     //   throw Exception('Failed to forget password: $error');

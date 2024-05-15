@@ -1,10 +1,12 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:Wasally/frontEnd/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Wasally/frontEnd/layout/layout.dart';
 
 class OrderReceivedScreen extends StatefulWidget {
-  const OrderReceivedScreen({super.key});
+  final user_model loggeduser;
+  const OrderReceivedScreen({super.key, required this.loggeduser});
 
   @override
   _OrderReceivedScreenState createState() => _OrderReceivedScreenState();
@@ -32,8 +34,14 @@ class _OrderReceivedScreenState extends State<OrderReceivedScreen>
 
     // Add a delay before automatically navigating back to the previous screen
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const LayoutScreen()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LayoutScreen(
+            loggedUser: widget.loggeduser,
+          ),
+        ),
+      );
     });
   }
 

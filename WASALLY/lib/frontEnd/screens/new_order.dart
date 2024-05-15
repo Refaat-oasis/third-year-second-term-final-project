@@ -515,6 +515,7 @@ class _NewOrderState extends State<NewOrderScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => TrackingLocationScreen(
+                                      loggeduser: widget.loggedUser!,
                                       sentOrder: sentOrder),
                                 ));
                           }
