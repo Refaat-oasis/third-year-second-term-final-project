@@ -8,7 +8,7 @@ USER_ROUTERS.route("/")
 	.post(USER_CONTROLLER.addNewUser);
 
 USER_ROUTERS.route("/authentication").get(USER_CONTROLLER.authenticateUser);
-USER_ROUTERS.route("/forget").get(USER_CONTROLLER.forgetPassword);
+USER_ROUTERS.route("/forget").post(USER_CONTROLLER.forgetPassword);
 
 USER_ROUTERS.route("/:userID")
 	.get(USER_CONTROLLER.getUserByID)

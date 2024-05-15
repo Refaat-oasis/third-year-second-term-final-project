@@ -43,27 +43,27 @@ class ApiService {
   }
 
   Future<user_model> forgetPassword(String email) async {
-    // try {
-    // Send GET request to the forgetPassword endpoint with email as query parameter
-    Response response = await dio.get(
-      '/api/v1/user/forget',
-      data: {
-        'email': email,
-      },
-    );
+    try {
+      // Send GET request to the forgetPassword endpoint with email as query parameter
+      Response response = await dio.post(
+        '/api/v1/user/forget',
+        data: {
+          'email': email,
+        },
+      );
 
-    // Check response status
-    if (response.statusCode == 200) {
-      // Request successful, parse response data and return user_model
-      return user_model.fromJson(response.data['data']);
-    } else {
-      // Request failed, throw exception with error message
-      throw Exception('Failed to forget password');
+      // Check response status
+      if (response.statusCode == 200) {
+        // Request successful, parse response data and return user_model
+        return user_model.fromJson(response.data['data']);
+      } else {
+        // Request failed, throw exception with error message
+        throw Exception('Failed to forget password');
+      }
+    } catch (error) {
+      // Request failed due to an error, throw exception with error message
+      throw Exception('Failed to forget password: $error');
     }
-    // } catch (error) {
-    //   // Request failed due to an error, throw exception with error message
-    //   throw Exception('Failed to forget password: $error');
-    // }
   }
 
   Future<user_model?> authenticate(String email, String password) async {
@@ -95,6 +95,31 @@ class ApiService {
       // Handle Dio errors
       print('Error: $e');
       return null;
+    }
+  }
+
+  Future<List<Order>> getAllOrdersWithParams(String param) async {
+    try {
+      Response<Map<String, dynamic>> response = await dio.get('/api/v1/order',
+          // queryParameters: {'userID': param});
+          queryParameters: {'userID': param ?? ''});
+      // Check if the response status code is successful
+      if (response.statusCode == 200) {
+        // Parse the JSON response into a list of orders
+        List<dynamic> orderData = response.data?['data'] ?? [];
+        List<Order> orders =
+            orderData.map((data) => Order.fromJson(data)).toList();
+
+        return orders;
+      } else {
+        // Handle non-successful responses
+        throw Exception(
+            'Failed to get all orders. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle Dio errors or server errors
+      print('Error: $e');
+      throw Exception('Failed to get all orders: $e');
     }
   }
 

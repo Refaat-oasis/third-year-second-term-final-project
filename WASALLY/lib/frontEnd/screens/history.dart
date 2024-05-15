@@ -25,7 +25,10 @@ class HistoryState extends State<history> {
   Future<void> fetchOrders() async {
     try {
       // Call your API service method to fetch orders
-      List<Order> fetchedOrders = await ApiService().getAllOrders();
+      // List<Order> fetchedOrders = await ApiService().getAllOrders();
+
+      List<Order> fetchedOrders =
+          await ApiService().getAllOrdersWithParams(widget.loggedUser!.id!);
 
       setState(() {
         // Update the orders list with the fetched orders
@@ -43,7 +46,7 @@ class HistoryState extends State<history> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Received Requests"),
+        title: const Text("Deliverd Orders"),
       ),
       body: Center(
         child: Padding(

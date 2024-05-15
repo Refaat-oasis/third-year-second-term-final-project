@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, use_key_in_widget_constructors, library_private_types_in_public_api, unused_field, use_build_context_synchronously
+// ignore_for_file: sized_box_for_whitespace, use_key_in_widget_constructors, library_private_types_in_public_api, unused_field, use_build_context_synchronously, avoid_print
 
 import 'dart:convert';
 
@@ -92,8 +92,8 @@ class _ResetPasswordScreenState extends State<ForgetPasswordScreen> {
                       onPressed: () async {
                         user_model forgottenuserpassword = await ApiService()
                             .forgetPassword(_emailController.text);
-                        print(jsonEncode(
-                            "there is a big problem ${forgottenuserpassword.toJson()}"));
+                        print(jsonEncode(forgottenuserpassword.toJson()));
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
